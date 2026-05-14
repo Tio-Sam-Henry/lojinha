@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Minha Loja - Estilo Geométrico</title>
+    <style>
+        /* 1. NOVO FUNDO AZUL COM GEOMETRIA ANIMADA */
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6); /* Azul Degradê */
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Formas geométricas que se mexem ao fundo */
+        .forma {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            animation: girar 10s linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes girar {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* 2. CAIXA DA LOJA */
+        .conteudo {
+            position: relative;
+            z-index: 1;
+            max-width: 500px;
+            width: 90%;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        h1 { text-align: center; color: #1e3a8a; margin-top: 0; }
+
+        .produto {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .produto img {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 12px;
+            background: #eee;
+        }
+
+        .info { flex: 1; margin-left: 15px; }
+
+        button {
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        button:hover { background-color: #1e3a8a; }
+        button:active { transform: scale(0.9); }
+
+        /* CARRINHO */
+        #carrinho { list-style: none; padding: 0; margin-top: 20px; }
+        #carrinho li { padding: 5px 0; border-bottom: 1px dashed #ccc; }
+        .total { font-size: 1.4rem; font-weight: bold; text-align: center; margin-top: 20px; color: #1e3a8a; }
+    </style>
+</head>
+<body>
+
+    <!-- Formas Geométricas Aleatórias ao Fundo -->
+    <div class="forma" style="width: 80px; height: 80px; left: 10%; bottom: -100px; animation-delay: 0s;"></div>
+    <div class="forma" style="width: 40px; height: 40px; left: 80%; bottom: -100px; animation-delay: 3s; border-radius: 50%;"></div>
+    <div class="forma" style="width: 100px; height: 100px; left: 50%; bottom: -100px; animation-delay: 7s; transform: rotate(45deg);"></div>
+
+    <div class="conteudo">
+        <h1>🛍️ Minha Lojinha</h1>
+
+        <!-- PRODUTOS (Sem o Sapato) -->
+        <div class="produto">
+            <img src="imagem/camisa.jpg" alt="Camisa">
+            <div class="info"><strong>Camisa</strong><br>R$ 50,00</div>
+            <button onclick="adicionar('Camisa', 50)">Adicionar</button>
+        </div>
+
+        <div class="produto">
+            <img src="imagem/bone.jpg" alt="Boné">
+            <div class="info"><strong>Boné</strong><br>R$ 30,00</div>
+            <button onclick="adicionar('Boné', 30)">Adicionar</button>
+        </div>
+
+        <div class="produto">
+            <img src="imagem/calca.jpg" alt="Calça">
+            <div class="info"><strong>Calça</strong><br>R$ 80,00</div>
+            <button onclick="adicionar('Calça', 80)">Adicionar</button>
+        </div>
+
+        <div class="produto">
+            <img src="imagem/tenis.jpg" alt="Tênis">
+            <div class="info"><strong>Tênis</strong><br>R$ 180,00</div>
+            <button onclick="add('Tênis', 180)">Adicionar</button>
+        </div>
+
+        <h2>🛒 Carrinho</h2>
+        <ul id="carrinho"></ul>
+        <div class="total">Total: R$ <span id="total-valor">0,00</span></div>
+    </div>
+
+    <script>
+        let carrinho = [];
+
+        function adicionar(nome, preco) {
+            carrinho.push({nome, preco});
+            atualizar();
+        }
+
+        // Função para o Tênis também funcionar
+        function add(nome, preco) { adicionar(nome, preco); }
+
+        function atualizar() {
+            const lista = document.getElementById("carrinho");
+            const totalDisplay = document.getElementById("total-valor");
+            lista.innerHTML = "";
+            let soma = 0;
+
+            carrinho.forEach(item => {
+                let li = document.createElement("li");
+                li.textContent = `🔹 ${item.nome} - R$ ${item.preco},00`;
+                lista.appendChild(li);
+                soma += item.preco;
+            });
+
+            totalDisplay.innerText = soma.toFixed(2).replace('.', ',');
+        }
+    </script>
+</body>
+</html>
